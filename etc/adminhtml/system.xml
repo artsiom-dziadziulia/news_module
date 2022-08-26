@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="awtest_news" translate="label" sortOrder="10">
+            <label>News</label>
+        </tab>
+        <section id="aw_news" translate="label" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Site News</label>
+            <tab>awtest_news</tab>
+            <resource>Aw_Test::management</resource>
+            <group id="general" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1">
+                <label>General</label>
+                <field id="is_active" translate="label comment" type="select" sortOrder="25" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInStore="1"
+                       canRestore="1">
+                    <label>Title</label>
+                    <depends>
+                        <field id="*/*/is_active">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

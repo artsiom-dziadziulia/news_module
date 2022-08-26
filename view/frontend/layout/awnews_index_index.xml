@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" label="Customer My Account (All Pages)" design_abstraction="custom">
+    <update handle="customer_account"/>
+    <body>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="customer_account_edit_head_components" template="Magento_Customer::js/components.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Aw\Test\Block\Account\News" name="customer_edit" template="Aw_Test::form/news.phtml" cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>

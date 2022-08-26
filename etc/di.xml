@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Aw\Test\Api\Data\NewsInterface" type="Aw\Test\Model\Data\NewsData"/>
+    <preference for="Aw\Test\Api\Data\NewsSearchResultsInterface" type="Aw\Test\Model\NewsSearchResults"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="news_listing_data_source" xsi:type="string">Aw\Test\Model\ResourceModel\NewsModel\NewsGridCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Aw\Test\Model\ResourceModel\NewsModel\NewsGridCollection">
+        <arguments>
+            <argument name="resourceModel" xsi:type="string">Aw\Test\Model\ResourceModel\NewsResource</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Aw\Test\SearchCriteria\CollectionProcessor\NewsJoinProcessor"
+                 type="Aw\Test\Model\JoinProcessor">
+        <arguments>
+            <argument name="customJoins" xsi:type="array">
+                <item name="news_store.store_id" xsi:type="object">Aw\Test\Model\ResourceModel\NewsModel\JoinProcessor\ScopeStore
+                </item>
+            </argument>
+            <argument name="fieldMapping" xsi:type="array">
+                <item name="store_id" xsi:type="string">news_store.store_id</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Aw\Test\SearchCriteria\CollectionProcessor\NewsCollectionProcessor"
+                 type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="joins" xsi:type="object"
+                      shared="false">Aw\Test\SearchCriteria\CollectionProcessor\NewsJoinProcessor
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Aw\Test\Query\News\GetListQuery">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Aw\Test\SearchCriteria\CollectionProcessor\NewsCollectionProcessor</argument>
+        </arguments>
+    </type>
+
+    <type name="Aw\Test\Command\News\GetList">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Aw\Test\SearchCriteria\CollectionProcessor\NewsCollectionProcessor</argument>
+        </arguments>
+    </type>
+
+    <!-- Scope and relation handlers facade START -->
+    <type name="Aw\Test\Model\ResourceModel\NewsResource">
+        <arguments>
+            <argument name="dataHandler" xsi:type="object">Aw\Test\Model\ResourceModel\NewsModel\CompositeHandler</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Aw\Test\Model\ResourceModel\NewsModel\CompositeHandler"
+                 type="Aw\Test\Model\ResourceModel\AbstractDb\CompositeHandler">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="stores" xsi:type="object">
+                    Aw\Test\Model\ResourceModel\News\DataHandler\Stores
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Aw\Test\Model\ResourceModel\News\DataHandler\Stores"
+                 type="Aw\Test\Model\ResourceModel\NewsModel\DataHandler\AbstractScopeHandler">
+        <arguments>
+            <argument name="tableName" xsi:type="const">
+                Aw\Test\Model\ResourceModel\NewsResource::SCOPE_STORE_TABLE
+            </argument>
+            <argument name="scopeValueColumn" xsi:type="const">
+                Aw\Test\Model\Data\NewsStoreData::STORE_ID
+            </argument>
+            <argument name="scopeValuesDataKey" xsi:type="string">storeview_ids</argument>
+            <argument name="allScopesValue" xsi:type="null"/>
+        </arguments>
+    </virtualType>
+    <type name="Aw\Test\Query\News\GetNewsByCurrentScopes">
+        <arguments>
+            <argument name="scopeProcessors" xsi:type="array">
+                <item name="store" xsi:type="object">Aw\Test\Model\StoreScopeProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aw\Test\Ui\DataProvider\NewsDataProvider">
+        <arguments>
+            <argument name="pool" xsi:type="object">Aw\Test\Ui\Component\Form\News\Modifier\Pool</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Aw\Test\Ui\Component\Form\News\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="general" xsi:type="array">
+                    <item name="class" xsi:type="string">Aw\Test\Ui\Component\Form\News\Modifiers\General</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Aw\Test\Ui\DataProvider\NewsGridDataProvider">
+        <arguments>
+            <argument name="modifiersPool" xsi:type="object">Aw\Test\Ui\Component\Grid\News\Modifier\Pool</argument>
+        </arguments>
+    </type>
+    <virtualType name="Aw\Test\Ui\Component\Grid\News\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool" />
+
+    <type name="Aw\Test\Controller\Index\Index">
+        <plugin name="authentication" type="Magento\Sales\Controller\Order\Plugin\Authentication"/>
+    </type>
+</config>

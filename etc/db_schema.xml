@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="news" resource="default" engine="innodb" comment="News">
+        <column xsi:type="int" name="news_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="News Id Column"/>
+        <column xsi:type="varchar" length="255" name="title" nullable="false" comment="News Title"/>
+        <column xsi:type="int" name="status" padding="2" unsigned="true" nullable="false" comment="News Status"/>
+        <column xsi:type="datetime" name="date" nullable="false" comment="News Date Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="news_id"/>
+        </constraint>
+        <index referenceId="NEWS_NEWS_ID" indexType="btree">
+            <column name="news_id"/>
+        </index>
+        <index referenceId="NEWS_NEWS_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
+    </table>
+
+    <table name="news_store" resource="default" engine="innodb" comment="News">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Relation Id Column"/>
+        <column xsi:type="int" name="news_item_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="News Id Column"/>
+        <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" identity="false"
+                comment="Store View ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="NEWS_STORE_NEWS_ITEM_ID_NEWS_NEWS_ID"
+                    table="news_store" column="news_item_id"
+                    referenceTable="news" referenceColumn="news_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="NEWS_STORE_STORE_ID_STORE__STORE_ID"
+                    table="news_store" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+    </table>
+</schema>

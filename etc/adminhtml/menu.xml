@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Aw_Test::management" sortOrder="10" title="News Management" module="Aw_Test"
+             resource="Aw_Test::management"
+             translate="title" action="news/news/index"/>
+        <add id="Aw_Test::add"
+             title="Add Item"
+             module="Aw_Test"
+             sortOrder="1"
+             action="news/news/new"
+             parent="Aw_Test::management"
+             resource="Magento_Backend::content"/>
+        <add id="Aw_Test::list"
+             title="News List"
+             module="Aw_Test"
+             sortOrder="2"
+             action="news/news/index"
+             parent="Aw_Test::management"
+             resource="Magento_Backend::content"/>
+        <add id="Aw_Test::config"
+             title="Settings"
+             module="Aw_Test"
+             sortOrder="3"
+             action="adminhtml/system_config/edit/section/aw_news"
+             parent="Aw_Test::management"
+             resource="Magento_Backend::content"/>
+    </menu>
+</config>

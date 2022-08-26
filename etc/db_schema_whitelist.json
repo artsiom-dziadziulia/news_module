@@ -1,0 +1,29 @@
+{
+  "news": {
+    "column": {
+      "news_id": true,
+      "title": true,
+      "status": true,
+      "date": true
+    },
+    "index": {
+      "NEWS_NEWS_ID": true,
+      "NEWS_NEWS_STATUS": true
+    },
+    "constraint": {
+      "PRIMARY": true
+    }
+  },
+  "news_store": {
+    "column": {
+      "id": true,
+      "news_item_id": true,
+      "store_id": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "NEWS_STORE_NEWS_ITEM_ID_NEWS_NEWS_ID": true,
+      "NEWS_STORE_STORE_ID_STORE__STORE_ID": true
+    }
+  }
+}

@@ -1,0 +1,27 @@
+<?php
+/** @var \Aw\Test\Block\Account\News $block */
+?>
+<?php $newsList = $block->getNews(); ?>
+
+<table class="data table table-order-items history" id="my-orders-table">
+    <caption class="table-caption"><?= $block->escapeHtml(__('News')) ?></caption>
+    <thead>
+    <tr>
+        <th scope="col" class="col id"><?= $block->escapeHtml(__('News Id #')) ?></th>
+        <th scope="col" class="col date"><?= $block->escapeHtml(__('Title')) ?></th>
+        <th scope="col" class="col total"><?= $block->escapeHtml(__('Status')) ?></th>
+        <th scope="col" class="col status"><?= $block->escapeHtml(__('Date')) ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($newsList as $news) : ?>
+        <tr>
+            <td data-th="<?= $block->escapeHtml(__('News ID #')) ?>" class="col id"><?= $block->escapeHtml($news->getNewsId()) ?></td>
+            <td data-th="<?= $block->escapeHtml(__('News ID #')) ?>" class="col id"><?= $block->escapeHtml($news->getTitle()) ?></td>
+            <td data-th="<?= $block->escapeHtml(__('News ID #')) ?>" class="col id"><?= $block->escapeHtml($news->getStatus()) ?></td>
+            <td data-th="<?= $block->escapeHtml(__('News ID #')) ?>" class="col id"><?= $block->escapeHtml($news->getDate()) ?></td>
+        </tr>
+    <?php endforeach;?>
+    </tbody>
+
+</table>
